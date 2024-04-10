@@ -1,9 +1,23 @@
 import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { Home, Signin, Signup } from './pages'
+import { AuthLayout } from './elements'
 
 export default function App() {
   return (
-    <div className=' bg-red-500 h-screen w-full'>
-      App
+    <div className=' w-full font-geist'>
+
+      <Routes>
+        
+        <Route element={<AuthLayout />} >
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/signin' element={<Signin />} />
+        </Route>
+
+        <Route path='/' element={<Home />} />
+
+      </Routes>
+
     </div>
   )
 }
