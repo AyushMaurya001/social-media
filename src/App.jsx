@@ -2,6 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Home, Signin, Signup } from './pages'
 import { AuthLayout } from './elements'
+import { Toaster } from "@/components/ui/toaster"
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
 
       </Routes>
 
+      <Toaster />
     </div>
   )
 }
