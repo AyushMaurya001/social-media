@@ -12,7 +12,7 @@ export default function AuthLayout() {
         <div className=' w-full h-screen flex justify-center items-center bg-background'>
           <Outlet />
           <img
-            src='/public/images/collection-of-pictures.jpeg'
+            src='/images/collection-of-pictures.jpeg'
             alt='auth layout image'
             className='w-[0px] opacity-0 md:opacity-100 md:w-[50%] transition-all h-screen object-cover bg-no-repeat select-none'
           />

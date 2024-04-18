@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { Home, Signin, Signup } from './pages'
-import { AuthLayout } from './elements'
+import { CreatePost, Explore, Home, People, Post, Profile, Saved, Signin, Signup, UpdatePost, UpdateProfile } from './pages'
+import { AuthLayout, RootLayout } from './components/elements'
 import { Toaster } from "@/components/ui/toaster"
 
 export default function App() {
@@ -15,7 +15,17 @@ export default function App() {
           <Route path='/signin' element={<Signin />} />
         </Route>
 
-        <Route path='/' element={<Home />} />
+        <Route element={<RootLayout />} >
+          <Route index element={<Home />} />
+          <Route path='/explore' element={<Explore />} />
+          <Route path='/people' element={<People />} />
+          <Route path='/saved' element={<Saved />} />
+          <Route path='/create-post' element={<CreatePost />} />
+          <Route path='/update-post/:id' element={<UpdatePost />} />
+          <Route path='/post/:id' element={<Post />} />
+          <Route path='/profile/:id' element={<Profile />} />
+          <Route path='/update-profile/:id' element={<UpdateProfile />} />
+        </Route>
 
       </Routes>
 

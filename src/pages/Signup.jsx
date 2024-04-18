@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { signupSchema } from '@/lib/validation'
-import { Anchor, Description, Logo, Title } from '@/elements'
+import { Anchor, Description, Loader, Logo, Title } from '@/components/elements'
 import { createUserAccount, signinUserAccount } from '@/lib/appwrite/api'
 import { useToast } from "@/components/ui/use-toast"
 import { useCreateUserAccount, useSigninUserAccount } from '@/lib/react-query/queriesAndMutations'
@@ -69,10 +69,11 @@ export default function Signup() {
   }
 
   return (
-    <div className=' w-[50%] md:w-[100%] transition-all h-screen flex flex-col gap-4 justify-center items-center'>
+    <div className=' w-[65%] md:w-[100%] transition-all h-screen flex flex-col gap-4 justify-center items-center'>
       <div className=' w-full flex flex-col gap-1 justify-center items-center'>
-        <Logo />
+        <Logo className='m-2' />
         <Title title='Create your new account' />
+        <Description description='To use Snapgram, Please enter your details' />
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full md:w-[350px] flex flex-col gap-3">
@@ -83,7 +84,7 @@ export default function Signup() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Vishnu" type="text" {...field} />
+                  <Input placeholder="" type="text" {...field} />
                 </FormControl>
                 {/* <FormDescription>
                   Enter your public display name.
@@ -99,7 +100,7 @@ export default function Signup() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="vishnu@gmail.com" type="email" {...field} />
+                  <Input placeholder="" type="email" {...field} />
                 </FormControl>
                 {/* <FormDescription>
                   Enter your email address
@@ -115,7 +116,7 @@ export default function Signup() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="--------" type="password" {...field} />
+                  <Input placeholder="" type="password" {...field} />
                 </FormControl>
                 {/* <FormDescription>
                   Create a new password
@@ -128,7 +129,7 @@ export default function Signup() {
             {
               isSigningInUserAccount | isCreatingUserAccount ? (
                 <div className=' flex gap-2 justify-center items-center'>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className=' fill-primary-foreground h-6 animate-spin'><path d="M18.364 5.63604L16.9497 7.05025C15.683 5.7835 13.933 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12H21C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.4853 3 16.7353 4.00736 18.364 5.63604Z"></path></svg>
+                  <Loader />
                   Loading
                 </div>
               ) : (

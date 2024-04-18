@@ -31,8 +31,10 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const checkAuthUser = async () => {
+    setIsLoading(true);
     try {
       const currentAccount = await getCurrentUser();
+      // console.log(currentAccount);
       if (currentAccount){
         setUser({
           id: currentAccount.$id,
@@ -55,7 +57,11 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('cookieFallback') == [] || localStorage.getItem('cookieFallback') === null) navigate('/signin');
+    const cookieFallback = localStorage.getItem('cookieFallback');
+    if (cookieFallback === "[]" || cookieFallback === null || cookieFallback === undefined){
+      navigate('/signin');
+    }
+    checkAuthUser();
   }, [])
 
   const value = {
@@ -64,8 +70,8 @@ const AuthProvider = ({ children }) => {
     isLoading,
     isAuthenticated,
     setIsAuthenticated,
-    checkAuthUser
-  }
+    checkAuthUser,
+  };
 
   return (
     <AuthContext.Provider value={value} >
