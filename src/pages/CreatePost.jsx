@@ -17,7 +17,7 @@ export default function CreatePost() {
       </div>
 
       <div className=' w-full flex justify-center items-center'>
-        <PostForm />
+        <PostForm action="create" />
       </div>
 
     </div>

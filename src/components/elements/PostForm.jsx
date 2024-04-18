@@ -15,7 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createPostSchema } from '@/lib/validation'
 import { Textarea } from '../ui/textarea'
 import { FileUploader, Loader } from '.'
-import { useCreatePost } from '@/lib/react-query/queriesAndMutations'
+import { useCreatePost, useUpdatePost } from '@/lib/react-query/queriesAndMutations'
 import { useToast } from '../ui/use-toast'
 import { useUserContext } from '@/context/AuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -29,17 +29,16 @@ export default function PostForm({ post, action }) {
   const { user } = useUserContext();
 
   const { mutateAsync: createPost, isPending: isCreatingPost } = useCreatePost();
+  const { mutateAsync: updatePost, isPending: isUpdatingPost } = useUpdatePost();
 
   const [files, setFiles] = useState([]);
-
-  console.log(post);
 
   const form = useForm({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       caption: post ? post?.caption : "",
       location: post ? post?.location : "",
-      tags: post ? post.tags.join(",") : "",
+      tags: post ? post?.tags.join(",") : "",
     },
   });
 
@@ -53,16 +52,28 @@ export default function PostForm({ post, action }) {
       userId: user.id,
     };
 
-    const newPost = await createPost(data);
-
-    if (!newPost){
-      toast({
-        title: "Please try again!",
-      })
+    if (action=="create"){
+      const newPost = await createPost(data);
+      if (!newPost){
+        toast({
+          title: "Please try again!",
+        })
+      } else {
+        toast({
+          title: "Posted Successfully!",
+        })
+      }
     } else {
-      toast({
-        title: "Posted Successfully!",
-      })
+      const updatedPost = await updatePost({data, post});
+      if (!updatedPost){
+        toast({
+          title: "Please try again!",
+        })
+      } else {
+        toast({
+          title: "Post updated Successfully!",
+        })
+      }
     }
 
     navigate('/');
@@ -133,8 +144,11 @@ export default function PostForm({ post, action }) {
           }}>Cancel</Button>
           <Button type="submit">
             {isCreatingPost===true ? <div className=' flex justify-center items-center gap-2'>
-              <Loader />
-              Loading
+              <Loader className={` fill-secondary`} />
+              Creating
+            </div> : isUpdatingPost===true ? <div className=' flex justify-center items-center gap-2'>
+              <Loader className={` fill-secondary`} />
+              Updating
             </div> : <div>
               Submit
             </div>}

@@ -51,7 +51,7 @@ export default function PostCard({ post }) {
           {post.caption}
         </div>
         <ul className=' w-full flex gap-1'>
-          {post.tags.map((tag) => <li key={tag} className=' text-primary/30'>
+          {post.tags.map((tag, index) => <li key={index} className=' text-primary/30'>
             #{tag}
           </li>)}
         </ul>

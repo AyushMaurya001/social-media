@@ -173,6 +173,55 @@ export async function createPost(payload){
   }
 }
 
+export async function updatePost(payload){
+
+  const addedNewFile = payload.data.files.length;
+  try {
+
+    let imageData = {
+      imageUrl: payload.post.imageUrl,
+      imageId: payload.post.imageId,
+    }
+
+    if (addedNewFile){
+      const uploadedFile = await uploadFile(payload.data.files[0]);
+      if (!uploadedFile) throw Error;
+      const previewUrl = await getPreviewUrl(uploadedFile.$id);
+      if (!previewUrl){
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+      imageData.imageId = uploadedFile.$id;
+      imageData.imageUrl = previewUrl;
+    }
+
+    const tags = payload.data.tags.replaceAll(" ", "").split(",");
+    
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      payload.post.$id,
+      {
+        caption: payload.data.caption,
+        imageUrl: imageData.imageUrl,
+        imageId: imageData.imageId,
+        location: payload.data.location,
+        tags: tags,
+      }
+    )
+    if (!updatedPost){
+      await deleteFile(imageData.imageId);
+      throw Error;
+    }
+    
+    return updatedPost;
+
+  } catch (e){
+    console.log(e);
+  }
+
+}
+
 export async function getRecentPosts(){
   try {
     const posts = await databases.listDocuments(
@@ -246,6 +295,7 @@ export async function getPostById(postId){
       appwriteConfig.postCollectionId,
       postId
     );
+    console.log(post);
     return post;
   } catch (error) {
     console.log(error);

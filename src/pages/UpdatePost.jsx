@@ -6,9 +6,7 @@ import { useParams } from 'react-router-dom'
 export default function UpdatePost() {
   const { id } = useParams();
 
-  const { data: post, isPending } = useGetPostById(id || '');
-
-  console.log('post', post);
+  const { data: post, isPending } = useGetPostById(id);
 
   if (isPending) return (
     <div className=' w-full min-h-screen flex justify-center items-center'>
