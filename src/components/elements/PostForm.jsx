@@ -15,7 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { createPostSchema } from '@/lib/validation'
 import { Textarea } from '../ui/textarea'
 import { FileUploader, Loader } from '.'
-import { useCreatePost, useUpdatePost } from '@/lib/react-query/queriesAndMutations'
+import { useCreatePost, useDeletePost, useUpdatePost } from '@/lib/react-query/queriesAndMutations'
 import { useToast } from '../ui/use-toast'
 import { useUserContext } from '@/context/AuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -33,6 +33,8 @@ export default function PostForm({ post, action }) {
 
   const [files, setFiles] = useState([]);
 
+  const { mutateAsync: deletePost, isPending: isDeletingPost, isSuccess: deletedPost } = useDeletePost();
+
   const form = useForm({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
@@ -41,6 +43,23 @@ export default function PostForm({ post, action }) {
       tags: post ? post?.tags.join(",") : "",
     },
   });
+
+  const deletePostHandler = async (e) => {
+    e.preventDefault();
+    const deletionStatus = await deletePost({
+      postId: post.$id
+    })
+    if (deletionStatus){
+      toast({
+        title: "Post deleted successfully"
+      })
+    } else {
+      toast({
+        title: "Please try again!"
+      })
+    }
+    navigate('/');
+  }
 
   const onSubmit = async (value) => {
 
@@ -63,6 +82,7 @@ export default function PostForm({ post, action }) {
           title: "Posted Successfully!",
         })
       }
+      navigate('/');
     } else {
       const updatedPost = await updatePost({data, post});
       if (!updatedPost){
@@ -74,9 +94,8 @@ export default function PostForm({ post, action }) {
           title: "Post updated Successfully!",
         })
       }
+      navigate(`/post/${post.$id}`);
     }
-
-    navigate('/');
 
   }
 
@@ -138,21 +157,28 @@ export default function PostForm({ post, action }) {
             </FormItem>
           )}
         />
-        <div className=' w-full flex gap-4 justify-end items-center'>
-          <Button type="cancel" onClick={() => {
-            navigate('/');
-          }}>Cancel</Button>
-          <Button type="submit">
-            {isCreatingPost===true ? <div className=' flex justify-center items-center gap-2'>
-              <Loader className={` fill-secondary`} />
-              Creating
-            </div> : isUpdatingPost===true ? <div className=' flex justify-center items-center gap-2'>
-              <Loader className={` fill-secondary`} />
-              Updating
-            </div> : <div>
-              Submit
-            </div>}
-          </Button>
+        <div className=' w-full flex gap-4 justify-between items-center'>
+          <div>
+            <Button variant="destructive" onClick={deletePostHandler}>
+              Delete Post
+            </Button>
+          </div>
+          <div className=' flex gap-4'>
+            <Button type="cancel" onClick={() => {
+              navigate('/');
+            }}>Cancel</Button>
+            <Button type="submit">
+              {isCreatingPost===true ? <div className=' flex justify-center items-center gap-2'>
+                <Loader className={` fill-secondary`} />
+                Creating
+              </div> : isUpdatingPost===true ? <div className=' flex justify-center items-center gap-2'>
+                <Loader className={` fill-secondary`} />
+                Updating
+              </div> : <div>
+                Submit
+              </div>}
+            </Button>
+          </div>
         </div>
       </form>
     </Form>

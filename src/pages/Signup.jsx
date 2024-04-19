@@ -129,7 +129,7 @@ export default function Signup() {
             {
               isSigningInUserAccount | isCreatingUserAccount ? (
                 <div className=' flex gap-2 justify-center items-center'>
-                  <Loader />
+                  <Loader className={` fill-secondary`} />
                   Loading
                 </div>
               ) : (

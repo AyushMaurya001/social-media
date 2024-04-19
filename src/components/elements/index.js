@@ -13,6 +13,7 @@ import FileUploader from "./FileUploader";
 import Loader from "./Loader";
 import PostCard from "./PostCard";
 import PostStats from "./PostStats";
+import PostDetails from "./PostDetails";
 
 export {
     AuthLayout,
@@ -30,4 +31,5 @@ export {
     Loader,
     PostCard,
     PostStats,
+    PostDetails,
 }

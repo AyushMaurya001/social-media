@@ -295,8 +295,24 @@ export async function getPostById(postId){
       appwriteConfig.postCollectionId,
       postId
     );
-    console.log(post);
+    if (!post) return {
+      status: "error"
+    };
+    // console.log(post);
     return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function deletePost(payload){
+  try {
+    const deletedSave = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      payload.postId
+    )
+    return payload;
   } catch (error) {
     console.log(error);
   }

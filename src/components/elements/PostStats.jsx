@@ -4,7 +4,7 @@ import { checkIsLiked } from '@/lib/utils'
 import React, { useEffect, useState } from 'react'
 import { Loader } from '.';
 
-export default function PostStats({ post }) {
+export default function PostStats({ post, className }) {
   const { user } = useUserContext();
 
   const likedList = post.likes.map((user) => user.$id);
@@ -51,7 +51,7 @@ export default function PostStats({ post }) {
   }
 
   return (
-    <div className=' w-full px-2 flex justify-between items-center'>
+    <div className={` w-full px-2 flex justify-between items-center ${className}`}>
       <div className=' flex gap-2'>
         {
           isLikingPost 

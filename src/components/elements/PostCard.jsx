@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 import { PostStats } from '.'
 
 export default function PostCard({ post }) {
-
   const { user } = useUserContext();
 
   return (
@@ -39,7 +38,7 @@ export default function PostCard({ post }) {
 
         <Link to={`/update-post/${post.$id}`} className={` px-2 ${post.creator.$id === user.id ? 'visible' : 'hidden'}`}>
           <img
-            src='images/edit.svg'
+            src='/images/edit.svg'
             alt='edit'
             className=' w-8'
           />
