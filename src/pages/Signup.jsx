@@ -127,7 +127,7 @@ export default function Signup() {
           />
           <Button type="submit" className="w-full flex justify-center items-center" >
             {
-              isSigningInUserAccount | isCreatingUserAccount ? (
+              isSigningInUserAccount || isCreatingUserAccount ? (
                 <div className=' flex gap-2 justify-center items-center'>
                   <Loader className={` fill-secondary`} />
                   Loading
