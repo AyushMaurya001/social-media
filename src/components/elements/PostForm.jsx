@@ -159,7 +159,7 @@ export default function PostForm({ post, action }) {
         />
         <div className=' w-full flex gap-4 justify-between items-center'>
           <div>
-            <Button variant="destructive" onClick={deletePostHandler}>
+            <Button variant="destructive" className={` ${action==="update"?"visible":"hidden"}`} onClick={deletePostHandler}>
               Delete Post
             </Button>
           </div>
