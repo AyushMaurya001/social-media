@@ -73,7 +73,7 @@ export default function Signup() {
       <div className=' w-full flex flex-col gap-1 justify-center items-center'>
         <Logo className='m-2' />
         <Title title='Create your new account' />
-        <Description description='To use Snapgram, Please enter your details' />
+        <Description description='To use Palverse, Please enter your details' />
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full md:w-[350px] flex flex-col gap-3">
